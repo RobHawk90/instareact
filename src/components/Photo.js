@@ -24,29 +24,24 @@ class PhotoInfo extends Component {
     return (
       <div className="photo-info">
         <div className="photo-info-likes">
-          <a href="#">alots_ssa</a>, <a href="#">rafael_rollo</a> Liked
+          {this.props.data.likers.map(liker => (
+            <a href="#">{liker.login}, </a>
+          ))}
+          Liked
         </div>
 
         <p className="photo-info-legend">
           <a className="photo-info-author">author </a>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Est, illo?
+          {this.props.data.comentario}
         </p>
 
         <ul className="photo-info-comments">
-          <li className="comment">
-            <a className="photo-info-author">follower </a>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem ad, molestiae.
-          </li>
-
-          <li className="comment">
-            <a className="photo-info-author">follower </a>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt cumque earum molestias voluptatem modi nihil sit magnam ratione eveniet distinctio magni error asperiores dignissimos tempora expedita, laborum ex soluta hic maiores veritatis deserunt.
-          </li>
-
-          <li className="comment">
-            <a className="photo-info-author">follower </a>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsum laudantium quae ab fuga odio delectus maiores voluptatibus sit commodi quidem.
-          </li>
+          {this.props.data.comentarios.map(comment => (
+            <li className="comment">
+              <a className="photo-info-author">{comment.login} </a>
+              {comment.texto}
+            </li>
+          ))}
         </ul>
       </div>
     )
@@ -61,14 +56,14 @@ class PhotoHeader extends Component {
     return (
       <header className="photo-header">
         <figure className="photo-user">
-          <img src="https://instagram.fcgh10-1.fna.fbcdn.net/t51.2885-19/11199408_569104449895751_1837574990_a.jpg" alt="" />
+          <img src={this.props.data.urlPerfil} alt="" />
 
           <figcaption className="photo-user">
-            <a href="#">alots</a>
+            <a href="#">{this.props.data.loginUsuario}</a>
           </figcaption>
         </figure>
 
-        <time className="photo-date">10/10/2017 19:00</time>
+        <time className="photo-date">{this.props.data.horario}</time>
       </header>
     )
   }
@@ -81,9 +76,9 @@ class PhotoItem extends Component {
   render() {
     return (
       <div className="photo">
-        <PhotoHeader />
-        <img alt="" className="photo-src" src="https://oseuroteiro.com.br/wp-content/uploads/2013/01/torreeiffel.fw_.png" />
-        <PhotoInfo />
+        <PhotoHeader data={this.props.data} />
+        <img alt="" className="photo-src" src={this.props.data.urlFoto} />
+        <PhotoInfo data={this.props.data} />
         <PhotoPublications />
       </div>
     )
