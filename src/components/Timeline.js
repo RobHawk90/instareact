@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import TimelineService from './../services/TimelineService'
 import Photo from './Photo'
 
 class Timeline extends Component {
@@ -22,8 +23,7 @@ class Timeline extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:8080/api/public/fotos/alots')
-      .then(res => res.json())
+    TimelineService.listFriendsPublications()
       .then(photos => this.setState({ photos: photos }))
   }
 
