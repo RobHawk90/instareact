@@ -5,10 +5,16 @@ import Photo from './Photo'
 
 class Timeline extends Component {
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = { photos: [] }
+    this.login = props.login
+  }
+
+  _loadFriendsPublications() {
+    TimelineService.listFriendsPublications(this.login)
+      .then(photos => this.setState({ photos: photos }))
   }
 
   /* @Override from Component */
@@ -16,15 +22,21 @@ class Timeline extends Component {
     return (
       <div className="photos container">
         {this.state.photos.map(photo => (
-          <Photo data={photo} />
+          <Photo data={photo} key={photo.id} />
         ))}
       </div>
     )
   }
 
+  /* @Override from Component */
   componentDidMount() {
-    TimelineService.listFriendsPublications()
-      .then(photos => this.setState({ photos: photos }))
+    this._loadFriendsPublications()
+  }
+
+  /* @Override from Component */
+  componentWillReceiveProps(props) {
+    this.login = props.login
+    this._loadFriendsPublications()
   }
 
 }

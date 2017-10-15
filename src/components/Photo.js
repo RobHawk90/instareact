@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Link } from 'react-router'
 
 class PhotoPublications extends Component {
 
@@ -25,7 +26,7 @@ class PhotoInfo extends Component {
       <div className="photo-info">
         <div className="photo-info-likes">
           {this.props.data.likers.map(liker => (
-            <a href="#">{liker.login}, </a>
+            <Link to={`/timeline/${liker.login}`}>{liker.login}, </Link>
           ))}
           Liked
         </div>
@@ -38,7 +39,7 @@ class PhotoInfo extends Component {
         <ul className="photo-info-comments">
           {this.props.data.comentarios.map(comment => (
             <li className="comment">
-              <a className="photo-info-author">{comment.login} </a>
+              <Link to={`/timeline/${comment.login}`} className="photo-info-author">{comment.login} </Link>
               {comment.texto}
             </li>
           ))}
@@ -59,7 +60,7 @@ class PhotoHeader extends Component {
           <img src={this.props.data.urlPerfil} alt="" />
 
           <figcaption className="photo-user">
-            <a href="#">{this.props.data.loginUsuario}</a>
+            <Link to={`/timeline/${this.props.data.loginUsuario}`}>{this.props.data.loginUsuario}</Link>
           </figcaption>
         </figure>
 

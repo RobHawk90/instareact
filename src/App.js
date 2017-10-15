@@ -10,7 +10,7 @@ class App extends Component {
     return (
       <div className="main">
         <Header />
-        <Timeline />
+        <Timeline login={this.props.params.login} />
       </div>
     )
   }
