@@ -193,10 +193,10 @@ body {
 }
 
 .photoPublications-like:hover {
-  background-image: url(../img/ic-s2-full.png);
+  cursor: pointer;
 }
 
-.photoPublications-like-ativo {
+.photoPublications-like-active {
   background: url(../img/ic-s2-full.png) no-repeat center center;
   background-size: 32px 32px;
   width: 44px;
@@ -205,6 +205,10 @@ body {
   display: inline-block;
   transition: .4s;
   margin-right: 1em;
+}
+
+.photoPublications-like-active:hover {
+  cursor: pointer;
 }
 
 .photoPublications-form {
