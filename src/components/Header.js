@@ -1,6 +1,16 @@
 import React, { Component } from 'react'
+import PubSub from 'pubsub-js'
+
+import TimelineService from './../services/TimelineService'
 
 class Header extends Component {
+
+  search(event) {
+    event.preventDefault();
+
+    TimelineService.listByLogin(this.$search.value)
+      .then(photos => PubSub.publish('update-timeline', photos))
+  }
 
   /* @Override from Component */
   render() {
@@ -8,8 +18,8 @@ class Header extends Component {
       <header className="header container">
         <h1 className="header-logo">Instareact</h1>
 
-        <form className="header-search">
-          <input type="text" name="search" placeholder="Search" className="header-search-field" />
+        <form className="header-search" onSubmit={this.search.bind(this)}>
+          <input type="text" name="search" placeholder="Search" className="header-search-field" ref={input => this.$search = input} />
           <input type="submit" value="Search" className="header-search-submit" />
         </form>
 

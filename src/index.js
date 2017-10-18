@@ -22,7 +22,7 @@ ReactDOM.render((
   <Router history={browserHistory}>
     <Route path="/" component={Login} />
     <Route path="/timeline" component={App} onEnter={authMiddleware} />
-    <Route path="/timeline/:login" component={App} />
+    <Route path="/timeline/:login" component={App /* inject into props.params.login */} />
     <Route path="/logout" component={Logout} />
   </Router>
 ), document.getElementById('root'))

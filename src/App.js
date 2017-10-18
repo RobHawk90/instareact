@@ -10,7 +10,7 @@ class App extends Component {
     return (
       <div className="main">
         <Header />
-        <Timeline login={this.props.params.login} />
+        <Timeline login={this.props.params.login /* injected from router (index.js) */} />
       </div>
     )
   }

@@ -14,7 +14,15 @@ class TimelineService {
     return fetch(`http://localhost:8080/api/fotos/${this.props.foto.id}/like?X-AUTH-TOKEN=${localStorage.getItem('auth-token')}`)
       .then(res => {
         if (res.ok) return res.json()
-        throw new Error('An error was occurred when liked a photo')
+        throw new Error('An error has occurred when liked a photo')
+      })
+  }
+
+  static listByLogin(login) {
+    return fetch(`http://localhost:8080/api/public/fotos/${login}`)
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error(`An error has occurred when searching for ${login}`)
       })
   }
 

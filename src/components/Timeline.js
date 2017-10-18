@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import PubSub from 'pubsub-js'
 
 import TimelineService from './../services/TimelineService'
 import Photo from './Photo'
@@ -18,12 +20,26 @@ class Timeline extends Component {
   }
 
   /* @Override from Component */
+  componentWillMount() {
+    PubSub.subscribe('update-timeline', (topic, photos) => {
+      this.setState({ photos })
+    })
+  }
+
+  /* @Override from Component */
   render() {
     return (
       <div className="photos container">
-        {this.state.photos.map(photo => (
-          <Photo data={photo} key={photo.id} />
-        ))}
+        <ReactCSSTransitionGroup
+          transitionName="timeline"
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={300}>
+
+          {this.state.photos.map(photo => (
+            <Photo data={photo} key={photo.id} />
+          ))}
+
+        </ReactCSSTransitionGroup>
       </div>
     )
   }
