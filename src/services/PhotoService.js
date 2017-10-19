@@ -4,7 +4,7 @@ class PhotoService {
     return fetch(`http://localhost:8080/api/fotos/${id}/like?X-AUTH-TOKEN=${localStorage.getItem('auth-token')}`, { method: 'post' })
       .then(res => {
         if (res.ok) return res.json()
-        throw new Error('An error was occurred when liked a photo')
+        throw new Error('An error has occurred when liked a photo')
       })
   }
 
@@ -16,7 +16,20 @@ class PhotoService {
     })
       .then(res => {
         if (res.ok) return res.json()
-        throw new Error('An error was occurred when commented a photo')
+        throw new Error('An error has occurred when commented a photo')
+      })
+  }
+
+  static list(login) {
+    let url = `http://localhost:8080/api/fotos?X-AUTH-TOKEN=${localStorage.getItem('auth-token')}`
+
+    if (login)
+      url = `http://localhost:8080/api/public/fotos/${login}`
+
+    return fetch(url)
+      .then(res => {
+        if (res.ok) return res.json()
+        throw new Error(`An error has occurred when getting publications ${login}`)
       })
   }
 

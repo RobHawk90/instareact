@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import PubSub from 'pubsub-js'
 
-import TimelineService from './../services/TimelineService'
+import PhotoService from './../services/PhotoService'
 
 class Header extends Component {
 
   search(event) {
     event.preventDefault();
 
-    TimelineService.listByLogin(this.$search.value)
+    PhotoService.list(this.$search.value)
       .then(photos => PubSub.publish('update-timeline', photos))
   }
 
