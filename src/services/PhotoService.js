@@ -1,23 +1,29 @@
 class PhotoService {
 
-  static like(id) {
-    return fetch(`http://localhost:8080/api/fotos/${id}/like?X-AUTH-TOKEN=${localStorage.getItem('auth-token')}`, { method: 'post' })
-      .then(res => {
-        if (res.ok) return res.json()
-        throw new Error('An error has occurred when liked a photo')
-      })
+  static like(photoId) {
+    return dispatch => {
+      fetch(`http://localhost:8080/api/fotos/${photoId}/like?X-AUTH-TOKEN=${localStorage.getItem('auth-token')}`, { method: 'post' })
+        .then(res => {
+          if (res.ok) return res.json()
+          throw new Error('An error has occurred when liked a photo')
+        })
+        .then(likerOrDisliker => dispatch({ type: 'LIKE', photoId, likerOrDisliker }))
+    }
   }
 
-  static comment(id, text) {
-    return fetch(`http://localhost:8080/api/fotos/${id}/comment?X-AUTH-TOKEN=${localStorage.getItem('auth-token')}`, {
-      headers: new Headers({ 'Content-type': 'application/json' })
-      , method: 'post'
-      , body: JSON.stringify({ texto: text })
-    })
-      .then(res => {
-        if (res.ok) return res.json()
-        throw new Error('An error has occurred when commented a photo')
+  static comment(photoId, text) {
+    return dispatch => {
+      fetch(`http://localhost:8080/api/fotos/${photoId}/comment?X-AUTH-TOKEN=${localStorage.getItem('auth-token')}`, {
+        headers: new Headers({ 'Content-type': 'application/json' })
+        , method: 'post'
+        , body: JSON.stringify({ texto: text })
       })
+        .then(res => {
+          if (res.ok) return res.json()
+          throw new Error('An error has occurred when commented a photo')
+        })
+        .then(comment => dispatch({ type: 'COMMENT', photoId, comment }))
+    }
   }
 
   static list(login) {
@@ -26,11 +32,14 @@ class PhotoService {
     if (login)
       url = `http://localhost:8080/api/public/fotos/${login}`
 
-    return fetch(url)
-      .then(res => {
-        if (res.ok) return res.json()
-        throw new Error(`An error has occurred when getting publications ${login}`)
-      })
+    return dispatch => {
+      fetch(url)
+        .then(res => {
+          if (res.ok) return res.json()
+          throw new Error(`An error has occurred when getting publications ${login}`)
+        })
+        .then(photos => dispatch({ type: 'LIST', photos }))
+    }
   }
 
 }

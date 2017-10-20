@@ -14,45 +14,20 @@ class Timeline extends Component {
   }
 
   like(photoId) {
-    PhotoService.like(photoId)
-      .then(likerOrDesliker => {
-        const photo = this._findPhoto(photoId)
-        const desliker = photo.likers.find(liker => liker.login === likerOrDesliker.login)
-
-        if (desliker) photo.likers.splice(photo.likers.indexOf(desliker), 1)
-        else photo.likers.push(likerOrDesliker)
-
-        photo.likeada = !photo.likeada
-
-        this.setState({ photos: this.state.photos })
-      })
+    this.props.store.dispatch(PhotoService.like(photoId))
   }
 
   comment(photoId, text, clearInputCallback) {
-    PhotoService.comment(photoId, text)
-      .then(comment => {
-        const photo = this._findPhoto(photoId)
-
-        photo.comentarios.push(comment)
-
-        this.setState({ photos: this.state.photos })
-
-        clearInputCallback()
-      })
-  }
-
-  _findPhoto(photoId) {
-    return this.state.photos.find(photo => photo.id === photoId)
+    this.props.store.dispatch(PhotoService.comment(photoId, text))
   }
 
   _loadPublications(login) {
-    PhotoService.list(login)
-      .then(photos => this.setState({ photos }))
+    this.props.store.dispatch(PhotoService.list(login))
   }
 
   /* @Override from Component */
   componentWillMount() {
-    PubSub.subscribe('update-timeline', (topic, photos) => this.setState({ photos }))
+    this.props.store.subscribe(() => this.setState({ photos: this.props.store.getState() }))
   }
 
   /* @Override from Component */
