@@ -11,7 +11,7 @@ class PhotoService {
     }
   }
 
-  static comment(photoId, text) {
+  static comment(photoId, text, clearInputCallback) {
     return dispatch => {
       fetch(`http://localhost:8080/api/fotos/${photoId}/comment?X-AUTH-TOKEN=${localStorage.getItem('auth-token')}`, {
         headers: new Headers({ 'Content-type': 'application/json' })
@@ -22,7 +22,10 @@ class PhotoService {
           if (res.ok) return res.json()
           throw new Error('An error has occurred when commented a photo')
         })
-        .then(comment => dispatch({ type: 'COMMENT', photoId, comment }))
+        .then(comment => {
+          clearInputCallback()
+          dispatch({ type: 'COMMENT', photoId, comment })
+        })
     }
   }
 

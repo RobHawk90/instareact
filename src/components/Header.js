@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import PubSub from 'pubsub-js'
 
 import PhotoService from './../services/PhotoService'
 
@@ -7,9 +6,7 @@ class Header extends Component {
 
   search(event) {
     event.preventDefault();
-
-    PhotoService.list(this.$search.value)
-      .then(photos => PubSub.publish('update-timeline', photos))
+    this.props.store.dispatch(PhotoService.list(this.$search.value))
   }
 
   /* @Override from Component */

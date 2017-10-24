@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import PubSub from 'pubsub-js'
 
 import PhotoService from './../services/PhotoService'
 import Photo from './Photo'
@@ -18,7 +17,7 @@ class Timeline extends Component {
   }
 
   comment(photoId, text, clearInputCallback) {
-    this.props.store.dispatch(PhotoService.comment(photoId, text))
+    this.props.store.dispatch(PhotoService.comment(photoId, text, clearInputCallback))
   }
 
   _loadPublications(login) {
@@ -40,7 +39,10 @@ class Timeline extends Component {
           transitionLeaveTimeout={300}>
 
           {this.state.photos.map(photo => (
-            <Photo key={photo.id} data={photo} like={this.like.bind(this)} comment={this.comment.bind(this)} />
+            <Photo key={photo.id}
+              data={photo}
+              like={this.like.bind(this)}
+              comment={this.comment.bind(this)} />
           ))}
 
         </ReactCSSTransitionGroup>

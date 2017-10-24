@@ -14,7 +14,7 @@ class App extends Component {
   render() {
     return (
       <div className="main">
-        <Header />
+        <Header store={store} />
         <Timeline login={this.props.params.login /* injected from router (index.js) */} store={store} />
       </div>
     )

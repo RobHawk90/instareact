@@ -2,10 +2,10 @@ export function timelineReducer(state = [], action) {
 
   if (action.type === 'LIKE') {
     const photo = state.find(photo => photo.id === action.photoId)
-    const desliker = photo.likers.find(liker => liker.login === action.likerOrDesliker.login)
+    const desliker = photo.likers.find(liker => liker.login === action.likerOrDisliker.login)
 
     if (desliker) photo.likers.splice(photo.likers.indexOf(desliker), 1)
-    else photo.likers.push(action.likerOrDesliker)
+    else photo.likers.push(action.likerOrDisliker)
 
     photo.likeada = !photo.likeada
 
