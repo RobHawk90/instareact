@@ -26,7 +26,7 @@ class Timeline extends Component {
 
   /* @Override from Component */
   componentWillMount() {
-    this.props.store.subscribe(() => this.setState({ photos: this.props.store.getState() }))
+    this.props.store.subscribe(() => this.setState({ photos: this.props.store.getState().timelineReducer }))
   }
 
   /* @Override from Component */

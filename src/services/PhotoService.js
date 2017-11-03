@@ -1,3 +1,5 @@
+import { actionLike, actionComment, actionList, actionNotify } from '../actions/actionCreator'
+
 class PhotoService {
 
   static like(photoId) {
@@ -7,7 +9,7 @@ class PhotoService {
           if (res.ok) return res.json()
           throw new Error('An error has occurred when liked a photo')
         })
-        .then(likerOrDisliker => dispatch({ type: 'LIKE', photoId, likerOrDisliker }))
+        .then(likerOrDisliker => dispatch(actionLike(photoId, likerOrDisliker)))
     }
   }
 
@@ -24,7 +26,7 @@ class PhotoService {
         })
         .then(comment => {
           clearInputCallback()
-          dispatch({ type: 'COMMENT', photoId, comment })
+          return dispatch(actionComment(photoId, comment))
         })
     }
   }
@@ -41,7 +43,14 @@ class PhotoService {
           if (res.ok) return res.json()
           throw new Error(`An error has occurred when getting publications ${login}`)
         })
-        .then(photos => dispatch({ type: 'LIST', photos }))
+        .then(photos => {
+          if (photos.length)
+            dispatch(actionNotify(''))
+          else
+            dispatch(actionNotify(`Sorry, "${login}" seems not to exist...`))
+
+          dispatch(actionList(photos))
+        })
     }
   }
 

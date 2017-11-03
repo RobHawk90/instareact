@@ -4,6 +4,11 @@ import PhotoService from './../services/PhotoService'
 
 class Header extends Component {
 
+  constructor() {
+    super()
+    this.state = { message: '' }
+  }
+
   search(event) {
     event.preventDefault();
     this.props.store.dispatch(PhotoService.list(this.$search.value))
@@ -21,6 +26,7 @@ class Header extends Component {
         </form>
 
         {/* Likes */}
+        <span>{this.state.message}</span>
         <nav>
           <ul className="header-nav">
             <li className="header-nav-item">
@@ -29,6 +35,13 @@ class Header extends Component {
           </ul>
         </nav>
       </header>
+    )
+  }
+
+  /* @Override from Component */
+  componentDidMount() {
+    this.props.store.subscribe(() =>
+      this.setState({ message: this.props.store.getState().notificationReducer })
     )
   }
 
